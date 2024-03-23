@@ -9,6 +9,29 @@
 
 It's an easy-to-use and elegant library based on event bus. It was greatly inspired by EventBus and made much simpler.
 
+
+### About Event Bus
+An Event Bus follows the publish/subscribe pattern. It allows listeners to
+subscribe for events and publishers to fire events. This enables objects to
+interact without requiring to explicitly define listeners and keeping track of
+them.
+
+The Event Bus pattern is especially helpful for decoupling [MVC](https://wikipedia.org/wiki/Model_View_Controller)
+(or [MVP](https://wikipedia.org/wiki/Model_View_Presenter)) applications.
+
+**One group of MVC** is not a problem.
+
+![Model-View-Controller](https://raw.githubusercontent.com/marcojakob/dart-event-bus/master/doc/mvc.png)
+
+But as soon as there are **multiple groups of MVCs**, those groups will have to talk
+to each other. This creates a tight coupling between the controllers.
+
+![Multi Model-View-Controllers](https://raw.githubusercontent.com/marcojakob/dart-event-bus/master/doc/mvc-multi.png)
+
+By communication through an **Event Bus**, the coupling is reduced.
+
+![Event Bus](https://raw.githubusercontent.com/marcojakob/dart-event-bus/master/doc/event-bus.png)
+
 ## Usage
 
 ### Step 1: Subscribe to an Event

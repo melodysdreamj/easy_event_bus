@@ -1,6 +1,6 @@
 name: easy_event_bus
 description: "It's an easy-to-use and elegant event bus-based library."
-version: 0.8.1
+version: 0.8.2
 homepage: https://github.com/melodysdreamj/easy_event_bus
 
 environment:
