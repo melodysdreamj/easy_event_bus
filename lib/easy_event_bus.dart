@@ -5,22 +5,28 @@ import 'dart:async';
 class EasyEventBus {
   static final EasyEventBus _instance = EasyEventBus._internal();
   final Map<String, StreamController<dynamic>> _eventControllers = {};
-  final Map<String, List<StreamSubscription<dynamic>>> _anonymousSubscriptions = {};
-  final Map<String, Map<String, StreamSubscription<dynamic>>> _identifiedSubscriptions = {};
+  final Map<String, List<StreamSubscription<dynamic>>> _anonymousSubscriptions =
+      {};
+  final Map<String, Map<String, StreamSubscription<dynamic>>>
+      _identifiedSubscriptions = {};
 
   EasyEventBus._internal();
 
-  static void on(String eventType, Function(dynamic event) onEvent, {String? id}) {
+  static void on(String eventType, Function(dynamic event) onEvent,
+      {String? id}) {
     var controller = _instance._eventControllers.putIfAbsent(
       eventType,
-          () => StreamController<dynamic>.broadcast(),
+      () => StreamController<dynamic>.broadcast(),
     );
 
     var subscription = controller.stream.listen(onEvent);
     if (id == null) {
-      _instance._anonymousSubscriptions.putIfAbsent(eventType, () => []).add(subscription);
+      _instance._anonymousSubscriptions
+          .putIfAbsent(eventType, () => [])
+          .add(subscription);
     } else {
-      var subscriptions = _instance._identifiedSubscriptions.putIfAbsent(eventType, () => {});
+      var subscriptions =
+          _instance._identifiedSubscriptions.putIfAbsent(eventType, () => {});
       subscriptions[id]?.cancel();
       subscriptions[id] = subscription;
     }
@@ -32,13 +38,20 @@ class EasyEventBus {
 
   static void cancel(String eventType, {String? id}) {
     if (id == null) {
-      _instance._anonymousSubscriptions[eventType]?.forEach((sub) => sub.cancel());
+      _instance._anonymousSubscriptions[eventType]
+          ?.forEach((sub) => sub.cancel());
       _instance._anonymousSubscriptions.remove(eventType);
+
+      _instance._identifiedSubscriptions[eventType]?.values
+          .forEach((sub) => sub.cancel());
+      _instance._identifiedSubscriptions.remove(eventType);
     } else {
       _instance._identifiedSubscriptions[eventType]?[id]?.cancel();
       _instance._identifiedSubscriptions[eventType]?.remove(id);
     }
-    if ((_instance._anonymousSubscriptions[eventType]?.isEmpty ?? true) && (_instance._identifiedSubscriptions[eventType]?.isEmpty ?? true)) {
+
+    if ((_instance._anonymousSubscriptions[eventType]?.isEmpty ?? true) &&
+        (_instance._identifiedSubscriptions[eventType]?.isEmpty ?? true)) {
       _instance._eventControllers[eventType]?.close();
       _instance._eventControllers.remove(eventType);
     }

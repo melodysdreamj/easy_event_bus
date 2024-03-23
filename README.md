@@ -1,39 +1,72 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+[![pub package](https://img.shields.io/pub/v/easy_event_bus.svg)](https://pub.dartlang.org/packages/easy_event_bus)
+[![GitHub](https://img.shields.io/github/stars/melodysdreamj/easy_event_bus.svg?style=social&label=Star)](https://github.com/melodysdreamj/easy_event_bus)
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# EasyEventBus
+[![Discord Server Invite](https://img.shields.io/badge/DISCORD-JOIN%20SERVER-5663F7?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/zXXHvAXCug)
+[![Kakao_Talk](https://img.shields.io/badge/KakaoTalk-Join%20Room-FEE500?style=for-the-badge&logo=kakao)](https://open.kakao.com/o/gEwrffbg)
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+It's an easy-to-use and elegant library based on event bus. It was greatly inspired by EventBus and made much simpler.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Step 1: Subscribe to an Event
+
+First, set up a subscription for the desired event. This allows you to listen for and react to the event whenever it is triggered.
 
 ```dart
-const like = 'sample';
+EasyEventBus.on('sayHello', (event) {
+  print(event); // write your code here.
+});
 ```
 
-## Additional information
+### Step 2: Trigger the Event
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Next, trigger the event at the appropriate time in your application. This will notify all subscribers of the event.
+
+```dart
+EasyEventBus.fire('sayHello', 'hello world'); // Triggers the event with a any data.
+```
+
+**Note**: The event data can be of **any type**, giving you flexibility in what information you pass to the subscribers.
+
+#### That's All!
+
+
+
+## Advance
+### 1. Cancel Subscription
+To cancel a subscription, you call the `cancel` method. This example shows how to cancel all subscriptions for the 'sayHello' event, both anonymous and with identifiers.
+
+```dart
+// Cancel all subscriptions to the 'sayHello' event.
+EasyEventBus.cancel('sayHello');
+```
+
+### 2. Cancel Specific Subscription
+Before canceling a specific subscription, you first need to create a subscription with an identifier (id). Here is how to subscribe to an event with an id and then cancel that specific subscription by calling the `cancel` method with the same id.
+
+First, subscribe to an event with an id:
+
+```dart
+// Subscribe to the 'sayHello' event with an identifier.
+EasyEventBus.on('sayHello', (event) {
+  print('Received: $event');
+}, id: 'uniqueId123');
+```
+
+Then, cancel the subscription using the same id:
+
+```dart
+// Cancel the subscription to the 'sayHello' event using the identifier 'uniqueId123'.
+EasyEventBus.cancel('sayHello', id: 'uniqueId123');
+```
+
+### 3. Cancel All Subscriptions
+You can cancel all subscriptions by calling the `cancelAll` method. This method cancels all subscriptions for all events and closes all event controllers.
+
+```dart
+// Cancel all subscriptions and close all event controllers.
+EasyEventBus.cancelAll();
+```

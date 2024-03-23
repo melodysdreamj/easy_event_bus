@@ -1,7 +1,7 @@
 name: easy_event_bus
 description: "It's an easy-to-use and elegant event bus-based library."
-version: 0.0.1
-homepage:
+version: 0.8.1
+homepage: https://github.com/melodysdreamj/easy_event_bus
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
